@@ -72,8 +72,10 @@ public class JwtSecurityFilterChainConfig {
 
 		httpSecurity.authorizeHttpRequests((authorize) -> authorize
 				// 모든 경로에 대해 인증 없이 접근 허용
-				.requestMatchers("/home", "/signup", "/authenticate").permitAll()
-				//.requestMatchers("/**").permitAll()
+				.requestMatchers("/home", "/signup", "/emart/authenticate,", "/emart/signup","authenticate",
+					"emart/mypage/delete","emart/mypage/home","/emart/mypage/memedit").permitAll()
+
+			//.requestMatchers("/**").permitAll()
 				// OPTIONS 메서드에 대한 요청도 인증 없이 허용
 				.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 				.anyRequest().authenticated()  // 그 외의 요청은 인증 필요
