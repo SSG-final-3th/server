@@ -2,7 +2,7 @@ package com.exam.member;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface MemberRepository extends JpaRepository<Member,String> {
+public interface MemberRepository extends JpaRepository<Member, String> {
 
     	/*
 		 JpaRepository에서 기본으로 제공하는 CRUD 메서드 사용 가능
@@ -17,6 +17,10 @@ public interface MemberRepository extends JpaRepository<Member,String> {
 		- 엔티티 갯수 : count()
 	    */
 
-    // 로그인 검증을 위한 쿼리 메서드
-    Member findByUseridAndPasswd(String userid, String passwd);
+	// 로그인 검증을 위한 쿼리 메서드
+	Member findByUseridAndPasswd(String userid, String passwd);
+
+	Member findByUseridAndPhoneNumber(String userid, String phoneNumber);
+
+	Member findByUsernameAndEmail(String username, String email);
 }

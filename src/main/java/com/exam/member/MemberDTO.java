@@ -3,6 +3,7 @@ package com.exam.member;
 import java.time.LocalDate;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
@@ -28,8 +29,14 @@ public class MemberDTO {
 	String phoneNumber;  // 전화번호
 	String email;  // 이메일
 	String role = "USER";  // 역할, 기본값 'USER'
-
+	String newPassword;  // 새 비밀번호
 	@CreationTimestamp
-	@Column(updatable = false) //저장할때만 자동저장O 수정할때는 저장 X 을위한것
+	@Column(updatable = false) //저장할때만 자동저장O 수정할때는 저장 X
 	LocalDate createDate; //저장할때만 자동저장O 수정할때는 저장 X
+
+	// 비밀번호 변경 메서드
+	public void updatePassword(String newPassword) {
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		this.passwd = encoder.encode(newPassword);  // 비밀번호 암호화 후 업데이트
+	}
 }

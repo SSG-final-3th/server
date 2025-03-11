@@ -34,9 +34,9 @@ public class Member {
 	String phoneNumber;  // 전화번호
 	String email;  // 이메일
 	String role = "USER";  // 역할, 기본값 'USER'
-
+	String newPassword;
 	@CreationTimestamp
-	@Column(updatable = false) //저장할때만 자동저장O 수정할때는 저장 X 을위한것
-	LocalDate createDate; //저장할때만 자동저장O 수정할때는 저장 X
+	@Column(updatable = false)   //저장할때만 자동저장O 수정할때는 저장 X 을위한것
+	LocalDate createDate;   //저장할때만 자동저장O 수정할때는 저장 X
 
 }
