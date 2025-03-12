@@ -75,7 +75,7 @@ public class MemberServiceImpl implements MemberService {
 		if (member == null) {
 			throw new IllegalArgumentException("일치하는 회원 정보가 없습니다.");
 		}
-		return member.getUserid(); // 아이디 반환
+		return convertToDTO(member);
 	}
 
 	// ✅ convertToDTO()를 클래스 내부에 배치

@@ -37,12 +37,16 @@ public class MemberController {
 	 */
 	@PostMapping("/findid")
 	public ResponseEntity<String> findId(@RequestBody MemberDTO dto) {
-		String userid = memberService.findUseridByNameAndEmail(dto.getUsername(), dto.getEmail());
-		if (userid != null) {
-			return ResponseEntity.ok(userid);
-		} else {
+		// 입력받은 이름과 이메일로 유저 ID와 가입 날짜 찾기
+		Member member = memberService.findUseridByNameAndEmail(dto.getUsername(), dto.getEmail());
+
+		// 만약 회원 정보가 없으면 404 반환
+		if (member == null) {
 			return ResponseEntity.status(404).body("아이디를 찾을 수 없습니다.");
 		}
+
+		// 아이디와 가입 날짜 반환 (쉼표로 구분)
+		return ResponseEntity.ok(member.getUserid() + "," + member.getCreateDate().toString());
 	}
 
 	@PostMapping("/signup")
