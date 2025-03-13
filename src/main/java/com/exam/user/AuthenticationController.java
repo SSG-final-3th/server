@@ -1,4 +1,4 @@
-package com.exam.member;
+package com.exam.user;
 
 import java.util.Map;
 
@@ -33,7 +33,7 @@ public class AuthenticationController {
 	   응답:
 		 {
 			token: 암호화된토큰값 <== 내부적으로 사용자id+pw+추가하고자하는임의값
-			userid:inky4832
+			userId:inky4832
 		  }
 
 
@@ -52,7 +52,7 @@ public class AuthenticationController {
 		if (token != null) { // 로그인 성공시 jwt 토큰을 json 응답으로 반환
 
 			JwtTokenResponse response =
-				new JwtTokenResponse(token, map.get("userid"));
+				new JwtTokenResponse(token, map.get("userId"));
 
 			return ResponseEntity.status(200).body(response);
 		} else {

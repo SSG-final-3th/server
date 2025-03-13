@@ -1,11 +1,12 @@
 package com.exam;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import lombok.extern.slf4j.Slf4j;
 
 @SpringBootApplication
 @Slf4j
@@ -13,8 +14,7 @@ public class BackendRepoApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(BackendRepoApplication.class, args);
-
-		System.out.println("ServerApplication 입니다.");
+		System.out.println("시작");
 	}
 
 	/*
@@ -32,12 +32,9 @@ public class BackendRepoApplication {
 		return new WebMvcConfigurer() {
 			public void addCorsMappings(CorsRegistry registry) {
 				registry.addMapping("/**")
-						.allowedMethods("*")
-						.allowedOrigins("http://localhost:3000","*");
+					.allowedMethods("*")
+					.allowedOrigins("http://localhost:3000", "*");
 			}
 		};
 	}
-
-
-
 }
