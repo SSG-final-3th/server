@@ -1,18 +1,17 @@
 package com.exam.config;
 
+import com.siot.IamportRestClient.IamportClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.siot.IamportRestClient.IamportClient;
-
 @Configuration
 public class IamportConfig {
 
-	@Value("0020266371022425")
+	@Value("${portone.imp_key}")
 	private String apiKey;
 
-	@Value("xfeF1iM90zvEisoRGcRyVPP7M3ef69lbLxzXgngxUDHwGtOoqYNMMHbiVI2bJcaGiT6acOwl6YzM93WL")
+	@Value("${portone.imp_secret}")
 	private String apiSecret;
 
 	@Bean

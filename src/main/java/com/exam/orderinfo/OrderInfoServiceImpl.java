@@ -39,6 +39,44 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 
 			int paidAmount = response.getResponse().getAmount().intValue();
 
+
+			if (dto.getOrders() != null && !dto.getOrders().isEmpty()) {
+				int totalExpectedAmount = 0;
+				for (ProductOrderDTO item : dto.getOrders()) {
+					Product product = productRepository.findByProductCode(item.getProductCode());
+					if (product == null) {
+						log.warn(" 상품을 찾을 수 없습니다: {}", item.getProductCode());
+						return false;
+					}
+
+					int itemPrice = product.getPrice() * item.getQuantity();
+					totalExpectedAmount += itemPrice;
+
+					// 개별 주문 저장
+					OrderInfo order = OrderInfo.builder()
+						.userId(dto.getUserId())
+						.productCode(item.getProductCode())
+						.quantity(item.getQuantity())
+						.receiverName(dto.getReceiverName())
+						.post(dto.getPost())
+						.addr1(dto.getAddr1())
+						.addr2(dto.getAddr2())
+						.phoneNumber(dto.getPhoneNumber())
+						.orderPrice(itemPrice)
+						.impUid(dto.getImpUid())
+						.build();
+
+					orderInfoRepository.save(order);
+				}
+
+				if (paidAmount != totalExpectedAmount) {
+					log.warn("❌ 금액 불일치: 기대값 = {}, 실제 결제 = {}", totalExpectedAmount, paidAmount);
+					return false;
+				}
+
+				return true;
+			}
+
 			Product product = productRepository.findByProductCode(dto.getProductCode());
 			if (product == null) {
 				log.warn(" 상품을 찾을 수 없습니다.");
@@ -83,16 +121,38 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 			.collect(Collectors.toList());
 	}
 
-	@Override
+	public List<OrderInfoDTO> getOrderInfoByImpUid(String impUid) {
+		// imp_uid로 여러 개의 주문을 찾기
+		List<OrderInfo> orders = orderInfoRepository.findByImpUid(impUid);
+
+		// 만약 결과가 없다면 null 반환
+		if (orders == null || orders.isEmpty()) {
+			return null;
+		}
+
+		// 여러 개의 주문을 DTO로 변환하여 반환
+		return orders.stream()
+			.map(this::convertToDTO)
+			.collect(Collectors.toList());
+	}
+
+	/*@Override
 	public OrderInfoDTO getOrderInfoByImpUid(String impUid) {
 		OrderInfo order = orderInfoRepository.findByImpUid(impUid);
 		if (order == null)
 			return null;
 
 		return convertToDTO(order); // 이미 너가 가지고 있던 변환 메서드 사용
-	}
+	}*/
 
 	private OrderInfoDTO convertToDTO(OrderInfo order) {
+
+		Product product = productRepository.findByProductCode(order.getProductCode());
+
+		if (product == null) {
+			log.warn("상품 정보를 찾을 수 없습니다: {}", order.getProductCode());
+			return null;
+		}
 		return OrderInfoDTO.builder()
 			.orderId(order.getOrderId())
 			.userId(order.getUserId())
@@ -105,6 +165,8 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 			.orderPrice(order.getOrderPrice())
 			.phoneNumber(order.getPhoneNumber())
 			.impUid(order.getImpUid())
+			.productName(product.getProductName()) // 상품명
+			.image(product.getImage()) // 상품 이미지 URL
 			.build();
 	}
 }

@@ -52,12 +52,12 @@ public class OrderInfoController {
 	}
 
 	@GetMapping("/complete/{impUid}")
-	public ResponseEntity<OrderInfoDTO> getOrderInfoByImpUid(@PathVariable String impUid) {
-		OrderInfoDTO orderInfo = orderInfoService.getOrderInfoByImpUid(impUid);
-		if (orderInfo == null) {
+	public ResponseEntity<List<OrderInfoDTO>> getOrderInfoByImpUid(@PathVariable String impUid) {
+		List<OrderInfoDTO> orderInfoList = orderInfoService.getOrderInfoByImpUid(impUid);
+		if (orderInfoList == null || orderInfoList.isEmpty()) {
 			return ResponseEntity.notFound().build();
 		}
-		return ResponseEntity.ok(orderInfo);
+		return ResponseEntity.ok(orderInfoList);
 	}
 
 

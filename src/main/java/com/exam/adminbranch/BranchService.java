@@ -14,8 +14,4 @@ public interface BranchService {
 
 	//지점 삭제
 	void deleteBranches(Branch branch, String branchName);
-
-	// 추가: 지도 API용 메소드
-	List<BranchLocationDTO> getAllBranchesWithGoodsCount();
-	BranchLocationDTO getBranchDetailWithGoods(String branchName);
 }

@@ -20,12 +20,5 @@ public class BranchDTO {
 	@Id
 	String branchName;
 	String branchAddress;
-
-	//위도 경도 필드 추가
-	Double latitude;
-	Double longitude;
-
-	//재고 있는 상품 수
-	Integer goodsCount;
 }
 

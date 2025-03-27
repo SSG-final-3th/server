@@ -10,7 +10,7 @@ public interface OrderInfoRepository extends JpaRepository<com.exam.order.OrderI
 	// 댓글쓸떄 구매내역 조회
 	boolean existsByUserIdAndProductCode(String userId, String productCode);
 
-	OrderInfo findByImpUid(String impUid);
+	List<OrderInfo> findByImpUid(String impUid);
 
 	List<OrderInfo> findByUserId(String userId);
 }

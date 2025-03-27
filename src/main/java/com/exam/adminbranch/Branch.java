@@ -25,10 +25,4 @@ public class Branch {
 	@Column(nullable = false)
 	String branchAddress;
 
-	//엔티티에 위도 경도 필드 추가
-	@Column
-	Double latitude;
-
-	@Column
-	Double longitude;
 }

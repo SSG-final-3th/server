@@ -7,5 +7,5 @@ public interface OrderInfoService {
 
 	boolean verifyAndSaveOrder(OrderInfoDTO orderDto);
 
-	OrderInfoDTO getOrderInfoByImpUid(String impUid);
+	List<OrderInfoDTO> getOrderInfoByImpUid(String impUid);
 }
