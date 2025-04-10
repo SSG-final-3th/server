@@ -29,6 +29,9 @@ repositories {
 }
 
 dependencies {
+    //postgre
+    implementation 'org.postgresql:postgresql:42.6.0'
+
     // MariaDB
     implementation 'org.mariadb.jdbc:mariadb-java-client:3.1.4'
 
@@ -60,8 +63,7 @@ dependencies {
 
     // AI 관련
     implementation 'org.springframework.ai:spring-ai-openai-spring-boot-starter:0.8.0'
-    implementation 'org.springframework.ai:spring-ai-core:0.8.0'
-
+    implementation 'org.springframework.ai:spring-ai-core'
 
     // 결제 연동
     implementation 'com.github.iamport:iamport-rest-client-java:0.2.21'
@@ -75,7 +77,12 @@ dependencies {
     // 테스트
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.4'
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    testRuntimeOnly 'org.junit.platformG:junit-platform-launcher'
+
+    // ㅓ
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    runtimeOnly 'org.postgresql:postgresql:42.6.0' // PostgreSQL
+    runtimeOnly 'com.mysql:mysql-connector-j:8.0.33' // MySQL
 }
 
 tasks.named('test') {

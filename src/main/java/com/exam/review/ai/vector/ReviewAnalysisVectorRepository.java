@@ -2,6 +2,9 @@ package com.exam.review.ai.vector;
 
 import java.util.List;
 
+import javax.naming.directory.SearchResult;
+
+import org.springframework.ai.vectorstore.SearchRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -37,4 +40,5 @@ public interface ReviewAnalysisVectorRepository extends JpaRepository<ReviewAnal
 			"LIMIT :limit",
 		nativeQuery = true)
 	List<Object[]> findSimilarByNegativeEmbedding(@Param("embedding") String embedding, @Param("limit") int limit);
+
 }
