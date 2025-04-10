@@ -128,8 +128,5 @@ public class DataSourceConfig {
 		return new JdbcTemplate(dataSource);
 	}
 
-	@Bean
-	public RestTemplate restTemplate() {
-		return new RestTemplate();
-	}
+
 }
