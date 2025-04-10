@@ -13,9 +13,11 @@ import jakarta.transaction.Transactional;
 public class InventoryServiceImpl implements InventoryService {
 
 	InventoryRepository inventoryRepository;
+	InventoryLogRepository inventoryLogRepository;
 
-	public InventoryServiceImpl(InventoryRepository inventoryRepository) {
+	public InventoryServiceImpl(InventoryRepository inventoryRepository, InventoryLogRepository inventoryLogRepository) {
 		this.inventoryRepository = inventoryRepository;
+		this.inventoryLogRepository = inventoryLogRepository;
 	}
 
 	@Override
@@ -65,7 +67,6 @@ public class InventoryServiceImpl implements InventoryService {
 		return inventoryDTOList;
 	}
 
-
 	// 특정 상품의 지점별 수량 조회 메소드
 	@Override
 	public Map<String, Integer> findQuantityByProductCode(String productCode) {
@@ -99,6 +100,20 @@ public class InventoryServiceImpl implements InventoryService {
 
 			inventory.setQuantity(newQuantity);
 			inventoryRepository.save(inventory);
+
+			//  [추가] 재고 로그 저장
+			ChangeType changeType = quantityChange >= 0 ? ChangeType.IN : ChangeType.OUT;
+
+			InventoryLog log = InventoryLog.builder()
+				.productCode(productCode)
+				.branchName(branchName)
+				.changeType(changeType)
+				.quantity(Math.abs(quantityChange)) // 무조건 절댓값으로
+				.remainingStock(newQuantity)
+				.changeDate(java.time.LocalDateTime.now())
+				.build();
+
+			inventoryLogRepository.save(log);
 
 			return true;
 		} catch (Exception e) {

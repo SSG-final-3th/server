@@ -1,0 +1,12 @@
+# 빌드된 JAR 실행용 OpenJDK 이미지
+FROM openjdk:17-jdk-alpine
+
+# 작업 디렉토리 설정
+WORKDIR /app
+
+# JAR 파일 복사
+COPY build/libs/*.jar app.jar
+
+# 앱 실행
+EXPOSE 8090
+ENTRYPOINT ["java", "-jar", "app.jar"]
