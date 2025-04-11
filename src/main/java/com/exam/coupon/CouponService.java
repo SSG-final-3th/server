@@ -21,4 +21,10 @@ public interface CouponService {
 
 	//주문 완료 후 쿠폰 삭제
 	void deleteByCouponId(Integer couponId);
+
+
+
+	Coupon enhanceCoupons(Coupon couponId1, Coupon couponId2);
+
+	Coupon findCouponById(Integer couponId1);
 }
