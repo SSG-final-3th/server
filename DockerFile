@@ -5,8 +5,8 @@ FROM openjdk:17-jdk-alpine
 WORKDIR /app
 
 # JAR 파일 복사
-COPY build/libs/*.jar app.jar
+COPY app.jar app.jar
 
 # 앱 실행
-EXPOSE 8090
+EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "app.jar"]
