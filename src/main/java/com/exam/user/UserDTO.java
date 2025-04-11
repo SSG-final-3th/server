@@ -51,6 +51,7 @@ public class UserDTO {
 
 	@Enumerated(EnumType.STRING)  // Enum 값을 String으로 저장
 	@Column(nullable = false)
+	@Builder.Default
 	Role role = Role.USER;
 
 	String newPassword;

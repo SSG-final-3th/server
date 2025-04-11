@@ -34,7 +34,7 @@ public class User {
 	@Column(nullable = false)
 	String password;  // 비밀번호
 
-	@Column(nullable = false)
+	@Column(nullable = false, unique = true)
 	String userName;  // 사용자 이름
 	String post;  // 주소
 	String addr1;  // 주소1
@@ -44,6 +44,7 @@ public class User {
 
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)
+	@Builder.Default
 	Role role = Role.USER;   // 역할, 기본값 'USER'
 
 	@Transient
@@ -57,4 +58,6 @@ public class User {
 
 	@Column(unique = true)
 	private String googleId;
+	@Column(unique = true)
+	private String naverId;
 }

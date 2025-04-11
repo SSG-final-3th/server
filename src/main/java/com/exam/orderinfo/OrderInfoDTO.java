@@ -37,6 +37,7 @@ public class OrderInfoDTO {
 	private int discountedPrice; // 할인된 가격
 
 	String selectedCoupon; // 추가된 부분 (쿠폰 정보)
+	@Builder.Default
 	LocalDate orderDate = LocalDate.now();
 
 	// 주문을 처리한 매장 정보

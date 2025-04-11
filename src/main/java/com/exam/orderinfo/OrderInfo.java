@@ -43,7 +43,7 @@ public class OrderInfo {
 
 	@Column(nullable = false)
 	private int orderPrice;
-
+	@Builder.Default
 	LocalDate orderDate = LocalDate.now();
 
 	// 주문을 처리한 매장 정보

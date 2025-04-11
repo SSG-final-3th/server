@@ -26,6 +26,7 @@ public class Mypage {
 	String addr2;  // 주소2
 	String phoneNumber;  // 전화번호
 	String email;  // 이메일
+	@Builder.Default
 	String role = "USER";
 
 }

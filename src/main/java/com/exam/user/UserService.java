@@ -1,5 +1,7 @@
 package com.exam.user;
 
+import com.exam.social.naver.NaverUserResponseDTO;
+
 public interface UserService {
 
 	// 회원가입
@@ -18,5 +20,8 @@ public interface UserService {
 
 	UserDTO getUserProfile(String userId);
 
+	UserDTO findOrCreateUser(NaverUserResponseDTO userInfo);
+
+	User saveOrLoginNaverUser(NaverUserResponseDTO dto);
 
 }

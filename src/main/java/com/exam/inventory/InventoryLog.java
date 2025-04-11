@@ -31,7 +31,7 @@ public class InventoryLog {
 
 	@Column // nullable 허용할거임
 	private Integer remainingStock;
-
+	@Builder.Default
 
 	@Column(nullable = false)
 	private LocalDateTime changeDate = LocalDateTime.now();
