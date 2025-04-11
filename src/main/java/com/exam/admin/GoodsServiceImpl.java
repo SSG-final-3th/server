@@ -59,5 +59,10 @@ public class GoodsServiceImpl implements GoodsService {
 		}
 	}
 
+	@Override
+	public void deleteGoodsByQuantity(String productCode, String branchName, int quantity) {
+		adminRepositoryGoods.deleteOldestGoods(productCode, branchName, quantity);
+	}
+
 }
 

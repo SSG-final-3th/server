@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.exam.product.ProductDTO;
@@ -32,9 +33,11 @@ public class AdminController {
 		*/
 
 	AdminService adminService;
+	GoodsService goodsService;
 
-	public AdminController(AdminService adminService) {
+	public AdminController(AdminService adminService, GoodsService goodsService) {
 		this.adminService = adminService;
+		this.goodsService = goodsService;
 	}
 
 	//  특정 상품 조회
@@ -93,6 +96,16 @@ public class AdminController {
 		@RequestBody GoodsDTO goodsDTO) {
 		adminService.updateGoods(goodsId, goodsDTO);
 		return ResponseEntity.status(201).body(goodsDTO); //201
+	}
+
+	@DeleteMapping("/consume")
+	public ResponseEntity<String> consumeGoods(
+		@RequestParam String productCode,
+		@RequestParam String branchName,
+		@RequestParam int quantity) {
+
+		goodsService.deleteGoodsByQuantity(productCode, branchName, quantity);
+		return ResponseEntity.ok(quantity + "개 상품이 유통기한 순으로 차감되었습니다.");
 	}
 
 }

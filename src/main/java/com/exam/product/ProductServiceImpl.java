@@ -86,4 +86,14 @@ public class ProductServiceImpl implements ProductService {
 		}).collect(Collectors.toList());
 	}
 
+	@Override
+	public List<Product> getProductsSorted(String sort) {
+		if ("priceAsc".equalsIgnoreCase(sort)) {
+			return productRepository.findAllByOrderByPriceAsc();
+		} else if ("priceDesc".equalsIgnoreCase(sort)) {
+			return productRepository.findAllByOrderByPriceDesc();
+		} else {
+			return productRepository.findAll(); // 기본 정렬
+		}
+	}
 }

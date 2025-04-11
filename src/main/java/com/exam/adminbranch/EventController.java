@@ -39,6 +39,7 @@ public class EventController {
 					.startDate(event.getStartDate())
 					.endDate(event.getEndDate())
 					.image(event.getImage())
+					.description(event.getDescription())
 					.build())
 				.collect(Collectors.toList());
 
@@ -59,6 +60,7 @@ public class EventController {
 				.category(eventDTO.getCategory())
 				.startDate(eventDTO.getStartDate())
 				.endDate(eventDTO.getEndDate())
+				.description(eventDTO.getDescription())
 				.build();
 
 			eventService.createEvent(eventDTO);
@@ -77,6 +79,7 @@ public class EventController {
 				.category(eventDTO.getCategory())
 				.startDate(eventDTO.getStartDate())
 				.endDate(eventDTO.getEndDate())
+				.description(eventDTO.getDescription())
 				.build();
 
 			eventService.updateEvent(eventId, eventDTO);

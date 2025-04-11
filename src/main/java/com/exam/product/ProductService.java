@@ -13,4 +13,5 @@ public interface ProductService {
 
 	List<ProductDTO> getProductsByUserId(String userId); //userid로 선호 category별 상품 조회
 
+	List<Product> getProductsSorted(String sort);
 }

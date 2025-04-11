@@ -27,5 +27,6 @@ public class EventDTO {
 	LocalDateTime startDate;
 	LocalDateTime endDate;
 	String image;
+	String description;
 
 }

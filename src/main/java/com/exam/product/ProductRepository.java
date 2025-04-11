@@ -19,4 +19,9 @@ public interface ProductRepository extends JpaRepository<Product, String> {
 	// userId를 기준으로 LikeCategory와 Product를 JOIN
 	@Query("SELECT p FROM Product p JOIN Likecategories lc ON p.category = lc.category WHERE lc.userId = :userId")
 	List<Product> findProductsByUserId(@Param("userId") String userId);
+
+	//가격 높은순, 낮은순
+	List<Product> findAllByOrderByPriceAsc();
+
+	List<Product> findAllByOrderByPriceDesc();
 }

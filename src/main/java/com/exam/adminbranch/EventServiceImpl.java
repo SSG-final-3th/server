@@ -39,6 +39,7 @@ public class EventServiceImpl implements EventService {
 			.startDate(dto.getStartDate())
 			.endDate(dto.getEndDate())
 			.image(dto.getImage())
+			.description(dto.getDescription())
 			.build();
 
 		eventRepository.save(event);
@@ -55,6 +56,7 @@ public class EventServiceImpl implements EventService {
 		existingEvent.setStartDate(dto.getStartDate());
 		existingEvent.setEndDate(dto.getEndDate());
 		existingEvent.setImage(dto.getImage());
+		existingEvent.setDescription(dto.getDescription());
 
 		eventRepository.save(existingEvent);
 	}
@@ -95,6 +97,7 @@ public class EventServiceImpl implements EventService {
 			.startDate(event.getStartDate())
 			.endDate(event.getEndDate())
 			.image(event.getImage())
+			.description(event.getDescription())
 			.build();
 	}
 

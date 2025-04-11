@@ -21,6 +21,8 @@ import com.exam.product.Product;
 import com.exam.product.ProductRepository;
 import com.exam.review.Review;
 import com.exam.review.ReviewRepository;
+import com.exam.review.ai.vector.ReviewAnalysisVectorRepository;
+import com.exam.review.ai.vector.ReviewAnalysisVectorService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,8 +34,11 @@ public class ReviewAnalysisService {
 
 	private final ReviewRepository reviewRepository;
 	private final ProductRepository productRepository;
-	private final ChatClient chatClient; //AI 모델과의 대화를 처리하는 핵심 인터페이스
-	//ChatClient : 프롬프트를 보내고 응답을 받는 역할, LLM 과의 상호작용 담당
+
+	private final ChatClient chatClient;
+	//벡터DB 사용을 위한 의존성 주입
+	private final ReviewAnalysisVectorRepository reviewAnalysisVectorRepository;
+	private final ReviewAnalysisVectorService vectorService;
 
 	//@Cacheable(value = "reviewAnalysis", key = "#productCode")
 	public ReviewAnalysisResponseDTO analyzeReviews(String productCode) {
@@ -70,7 +75,22 @@ public class ReviewAnalysisService {
 		response.setProductName(product.getProductName());
 		response.setAverageRating(averageRating);
 		response.setReviewCount(reviews.size());
+		// 시맨틱 검색을 위한 벡터 저장 - 이 블록 추가
 
+		try {
+			vectorService.saveReviewAnalysisVector(
+				response.hashCode(), // 또는 더 나은 ID 생성 전략
+				productCode,
+				reviewTexts,
+				response.getSummary(),
+				response.getKeyPositivePoints(),
+				response.getKeyNegativePoints()
+			);
+			log.info("Vector embeddings saved for product: {}", productCode);
+		} catch (Exception e) {
+			log.error("Error saving vector embeddings: {}", e.getMessage(), e);
+			// 벡터 저장 실패해도 전체 작업은 실패하지 않도록 함
+		}
 		log.info("Review analysis completed for product: {}", productCode);
 		return response;
 	}
@@ -84,7 +104,6 @@ public class ReviewAnalysisService {
 			.summary("아직 리뷰가 없습니다.")
 			.keyPositivePoints(Collections.emptyList())
 			.keyNegativePoints(Collections.emptyList())
-			.recommendations(Collections.singletonList("첫 번째 리뷰를 작성해보세요!"))
 			.build();
 	}
 
@@ -100,6 +119,12 @@ public class ReviewAnalysisService {
 				"3. keyNegativePoints: 주요 부정적 포인트 리스트 (최대 5개)\n" +
 				"4. summary: 전체 리뷰 요약 (100자 내외)\n" +
 				"5. recommendations: 구매자에게 도움이 될 추천사항 리스트 (최대 3개)\n" +
+				"6. reviewCategories: 다음 5가지 카테고리로 리뷰를 분류하고 각 카테고리별 언급 횟수를 계산하세요: \n" +
+				"   - {\"category\": \"맛/품질\", \"count\": 0, \"emoji\": \"😋\"}\n" +
+				"   - {\"category\": \"가성비\", \"count\": 0, \"emoji\": \"💰\"}\n" +
+				"   - {\"category\": \"신선도\", \"count\": 0, \"emoji\": \"🌱\"}\n" +
+				"   - {\"category\": \"양/크기\", \"count\": 0, \"emoji\": \"🍽️\"}\n" +
+				"   - {\"category\": \"주차편의성\", \"count\": 0, \"emoji\": \"🅿️\"}\n" +
 				"JSON 형식으로 응답해야 합니다. 다른 텍스트나 설명은 포함하지 마세요."
 		);
 
@@ -168,14 +193,22 @@ public class ReviewAnalysisService {
 				dto.setSummary(json.getString("summary"));
 			}
 
-			// 추천사항
-			if (json.has("recommendations")) {
-				JSONArray recommendations = json.getJSONArray("recommendations");
-				List<String> recommendationsList = new ArrayList<>();
-				for (int i = 0; i < recommendations.length(); i++) {
-					recommendationsList.add(recommendations.getString(i));
+			// 리뷰 카테고리 파싱
+			if (json.has("reviewCategories")) {
+				JSONArray categories = json.getJSONArray("reviewCategories");
+				List<ReviewCategoryDTO> categoryList = new ArrayList<>();
+
+				for (int i = 0; i < categories.length(); i++) {
+					JSONObject category = categories.getJSONObject(i);
+					ReviewCategoryDTO categoryDTO = new ReviewCategoryDTO(
+						category.getString("category"),
+						category.getInt("count"),
+						category.has("emoji") ? category.getString("emoji") : ""
+					);
+					categoryList.add(categoryDTO);
 				}
-				dto.setRecommendations(recommendationsList);
+
+				dto.setReviewCategories(categoryList);
 			}
 
 			return dto;

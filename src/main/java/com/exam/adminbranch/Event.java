@@ -40,4 +40,7 @@ public class Event {
 
 	@Column(nullable = false)
 	String image;
+
+	@Column(nullable = false)
+	String description;
 }

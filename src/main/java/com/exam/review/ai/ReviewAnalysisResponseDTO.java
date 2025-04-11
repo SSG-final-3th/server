@@ -17,9 +17,14 @@ public class ReviewAnalysisResponseDTO {
 	private String productName;
 	private double averageRating;
 	private int reviewCount;
+
 	private Map<String, Double> sentimentAnalysis;
 	private List<String> keyPositivePoints;
 	private List<String> keyNegativePoints;
+	// 리뷰 카테고리
+	private List<ReviewCategoryDTO> reviewCategories;
+	// 요약
 	private String summary;
 	private List<String> recommendations;
+
 }

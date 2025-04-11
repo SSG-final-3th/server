@@ -4,7 +4,11 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.transaction.annotation.Transactional;
 
 public interface AdminRepositoryGoods extends JpaRepository<Goods, Integer> {
       /*
@@ -33,5 +37,26 @@ public interface AdminRepositoryGoods extends JpaRepository<Goods, Integer> {
 
 	// 유통기한이 주어진 날짜보다 이전인 상품들 찾기
 	List<Goods> findByExpirationDateBefore(LocalDateTime now);
+
+	@Transactional
+	@Modifying
+	@Query(value = """
+		DELETE FROM goods
+		WHERE goodsId IN (
+		    SELECT sub.goodsId FROM (
+		        SELECT goodsId
+		        FROM goods
+		        WHERE productCode = :productCode
+		          AND branchName = :branchName
+		        ORDER BY expirationDate ASC
+		        LIMIT :quantity
+		    ) AS sub
+		)
+		""", nativeQuery = true)
+	void deleteOldestGoods(
+		@Param("productCode") String productCode,
+		@Param("branchName") String branchName,
+		@Param("quantity") int quantity
+	);
 
 }

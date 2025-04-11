@@ -84,4 +84,10 @@ public class ProductController {
 		return (products.isEmpty()) ? ResponseEntity.noContent().build() : ResponseEntity.ok(products);
 	}
 
+	@GetMapping
+	public ResponseEntity<List<Product>> getProducts(@RequestParam(defaultValue = "default") String sort) {
+		List<Product> products = productService.getProductsSorted(sort);
+		return ResponseEntity.ok(products);
+	}
+
 }
