@@ -28,7 +28,7 @@ public class UserServiceImpl implements UserService {
 
 		User user = User.builder()
 			.userId(dto.getUserId())
-			.password(passwordEncoder.encode(dto.getPassword())) // 비밀번호 암호화
+			.password(dto.getPassword()) // 비밀번호 암호화
 			.userName(dto.getUserName())
 			.post(dto.getPost())
 			.addr1(dto.getAddr1())

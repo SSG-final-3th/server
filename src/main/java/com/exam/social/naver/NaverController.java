@@ -64,11 +64,11 @@ public class NaverController {
 
 			// 5️⃣ 프론트엔드로 리다이렉트
 			// NaverController.java
-			response.sendRedirect("http://localhost:3000/login/naver/callback?token=" + token);
+			response.sendRedirect("https://moreandmall.click/login/naver/callback?token=" + token);
 
 
 		} catch (Exception e) {
-			response.sendRedirect("http://localhost:3000/login?error=" + e.getMessage());
+			response.sendRedirect("https://moreandmall.click//login?error=" + e.getMessage());
 		}
 	}
 }

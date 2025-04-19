@@ -58,7 +58,7 @@ public class DataSourceConfig {
 					"com.exam.admin",
 					"com.exam.adminbranch",
 					"com.exam.answer",
-					"com.exam.cart",
+					"com.exam.Cart",
 					"com.exam.category",
 					"com.exam.config",
 					"com.exam.coupon",

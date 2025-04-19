@@ -39,4 +39,11 @@ public class ProductDTO {
 	private String image;
 
 	private double averageRating;
+
+	public ProductDTO(String productCode, String productName, String category, int price) {
+		this.productCode = productCode;
+		this.productName = productName;
+		this.category = category;
+		this.price = price;
+	}
 }

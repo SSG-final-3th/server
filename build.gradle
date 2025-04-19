@@ -89,6 +89,18 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     runtimeOnly 'org.postgresql:postgresql:42.6.0' // PostgreSQL
     runtimeOnly 'com.mysql:mysql-connector-j:8.0.33' // MySQL
+
+    //엘라스틴서치
+    implementation 'co.elastic.clients:elasticsearch-java:8.10.0'
+    //implementation 'org.elasticsearch.client:elasticsearch-rest-client:8.10.0'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.15.2'
+    implementation 'jakarta.json:jakarta.json-api:2.0.1'
+    implementation 'org.opensearch.client:opensearch-java:2.6.0' // 배포를 위한 버전 변경
+
+    // 서버 자꾸 죽는 문제 해결
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
+
 }
 
 tasks.named('test') {

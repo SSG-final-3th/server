@@ -139,7 +139,7 @@ public class AdminServiceImpl implements AdminService {
 					newQty = 0; // 로그 용
 				}
 
-				//  로그 저장 
+				//  로그 저장
 				inventoryLogRepository.save(
 					InventoryLog.builder()
 						.productCode(productCode)

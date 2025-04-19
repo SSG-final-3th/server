@@ -19,6 +19,7 @@ import java.util.Map;
 @Slf4j
 public class ElasticsearchSearchService {
 
+	private final ElasticsearchIndexService elasticsearchIndexService;
 	private final ElasticsearchClient esClient;
 
 	// 한국어 검색어와 영어 카테고리 매핑
@@ -46,6 +47,7 @@ public class ElasticsearchSearchService {
 	 */
 	public List<Map<String, Object>> searchProducts(String keyword, int limit) {
 		try {
+			elasticsearchIndexService.initializeIfNeeded();
 			// 검색어가 비어있는 경우 처리
 			if (keyword == null || keyword.trim().isEmpty()) {
 				log.warn("빈 검색어로 검색 시도");

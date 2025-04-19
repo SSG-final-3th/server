@@ -3,6 +3,7 @@ package com.exam.adminbranch;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -17,6 +18,7 @@ import lombok.ToString;
 @ToString
 @Builder
 @Entity
+@Table(name = "branch")
 public class Branch {
 	@Id
 	@Column(nullable = false)

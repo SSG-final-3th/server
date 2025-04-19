@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Builder
+@Table(name = "answer")
 @EntityListeners(AuditingEntityListener.class) // Auditing 활성화
 public class Answer {
 

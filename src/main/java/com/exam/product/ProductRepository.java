@@ -25,6 +25,10 @@ public interface ProductRepository extends JpaRepository<Product, String> {
 
 	List<Product> findAllByOrderByPriceDesc();
 
+	//elastic search 용
+
+	@Query("SELECT new com.exam.product.ProductDTO(p.productCode, p.productName, p.category, p.price) FROM Product p")
+	List<ProductDTO> findAllProducts();
 	// 다중 제품 코드로 제품 찾기
 	List<Product> findAllByProductCodeIn(List<String> productCodes);
 }

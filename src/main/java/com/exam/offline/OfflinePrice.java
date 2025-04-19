@@ -2,6 +2,7 @@ package com.exam.offline;
 
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,6 +17,7 @@ import lombok.ToString;
 @ToString
 @Builder
 @Entity
+@Table(name = "offlineprice")
 public class OfflinePrice {
 
 	@EmbeddedId

@@ -18,15 +18,29 @@ public class ElasticsearchIndexService {
 
 	private final ElasticsearchClient esClient;
 
-	@PostConstruct
-	public void initialize() {
-		try {
-			createProductIndex();
-			log.info("Elasticsearch 제품 인덱스 초기화 완료");
-		} catch (Exception e) {
-			log.error("Elasticsearch 인덱스 초기화 중 오류: {}", e.getMessage(), e);
+	private static boolean initialized = false;
+
+	public synchronized void initializeIfNeeded() {
+		if (!initialized) {
+			int maxAttempts = 10;
+			int waitSeconds = 3;
+			for (int attempt = 1; attempt <= maxAttempts; attempt++) {
+				try {
+					createProductIndex();
+					initialized = true;
+					log.info("Elasticsearch 인덱스 초기화 성공 (시도 {}회)", attempt);
+					return;
+				} catch (Exception e) {
+					log.warn("Elasticsearch 인덱스 초기화 실패 (시도 {}회): {}", attempt, e.getMessage());
+					try {
+						Thread.sleep(waitSeconds * 1000L);
+					} catch (InterruptedException ignored) {}
+				}
+			}
+			log.error("Elasticsearch 인덱스 초기화에 반복적으로 실패했습니다.");
 		}
 	}
+
 
 	private void createProductIndex() throws IOException {
 		String indexName = "products";
