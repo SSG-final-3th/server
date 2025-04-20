@@ -1,5 +1,6 @@
 package com.exam.product;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
@@ -31,4 +32,7 @@ public interface ProductRepository extends JpaRepository<Product, String> {
 	List<ProductDTO> findAllProducts();
 	// 다중 제품 코드로 제품 찾기
 	List<Product> findAllByProductCodeIn(List<String> productCodes);
+
+	;
+
 }

@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Entity
-@Table(name = "reviewAnalysis")
+@Table(name = "reviewanalysis")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
